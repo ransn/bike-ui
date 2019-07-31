@@ -1,0 +1,45 @@
+#FROM node:latest
+
+#MAINTAINER Ranganath SN
+
+#ENV NODE_ENV=production
+#ENV PORT=4200
+#create app directory
+#WORKDIR /var/www
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+#COPY . /var/www/
+
+#RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
+
+# Bundle app source
+#COPY . .
+
+#EXPOSE $PORT
+
+#CMD ng serve --host 0.0.0.0
+#ENTRYPOINT npm start
+
+
+# base image
+FROM node:10.16.0
+# working directory
+WORKDIR /app
+# add '/app/node_modules/.bin' to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+#install and cache app dependencies
+COPY package.json /app/package.json
+RUN npm install
+RUN npm install -g @angular/cli@8.1.3
+
+#add app
+COPY . /app
+
+#start app
+CMD ng serve --host 0.0.0.0
+
+# docker build -t bike-ui:dev .
+# docker run -v ${PWD}:/app -v /app/node_modules -p 4201:4200 --rm bike-ui:dev
