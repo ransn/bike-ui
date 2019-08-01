@@ -39,7 +39,7 @@ RUN npm install -g @angular/cli@8.1.3
 COPY . /app
 
 #start app
-CMD ng serve --host 0.0.0.0
+CMD ng serve --host 0.0.0.0 --proxy-config proxy.conf.json
 
 # docker build -t bike-ui:dev .
 # docker run -v ${PWD}:/app -v /app/node_modules -p 4201:4200 --rm bike-ui:dev
